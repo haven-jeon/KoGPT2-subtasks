@@ -1,0 +1,6 @@
+[submodule "data/nsmc"]
+	path = data/nsmc
+	url = https://github.com/e9t/nsmc.git
+[submodule "data/KorNLUDatasets"]
+	path = data/KorNLUDatasets
+	url = https://github.com/kakaobrain/KorNLUDatasets.git

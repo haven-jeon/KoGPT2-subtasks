@@ -1,0 +1,4 @@
+pandas
+torch
+transformers==4.5.1
+pytorch-lightning==1.3.0
