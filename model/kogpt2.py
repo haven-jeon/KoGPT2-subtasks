@@ -91,6 +91,7 @@ class SubtaskGPT2(Classification):
             'skt/kogpt2-base-v2',
             num_labels=self.hparams.num_labels)
         self.metric_acc = pl.metrics.classification.Accuracy()
+        self.metric_acc_val = pl.metrics.classification.Accuracy()
         self.loss_function = torch.nn.CrossEntropyLoss()
 
     def forward(self, batch):
@@ -119,8 +120,8 @@ class SubtaskGPT2(Classification):
         y_hat = output['logits']
 
         val_loss = self.loss_function(y_hat, label)
-        val_acc = self.metric_acc(torch.nn.functional.softmax(y_hat, dim=1),
-                                  label)
+        val_acc = self.metric_acc_val(torch.nn.functional.softmax(y_hat, dim=1),
+                                      label)
         self.log("loss", val_loss, on_epoch=True, prog_bar=True)
         self.log('val_acc_step', val_acc, on_step=True, on_epoch=True)
 
@@ -130,7 +131,7 @@ class SubtaskGPT2(Classification):
         avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
         self.log('val_loss', avg_loss)
         self.log('val_acc',
-                 self.metric_acc.compute(),
+                 self.metric_acc_val.compute(),
                  on_epoch=True,
                  prog_bar=True)
 
