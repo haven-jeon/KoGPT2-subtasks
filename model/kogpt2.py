@@ -111,7 +111,7 @@ class SubtaskGPT2(Classification):
         train_acc = self.metric_acc(torch.nn.functional.softmax(y_hat, dim=1),
                                     label)
         self.log("train_loss", train_loss, on_epoch=True, prog_bar=True)
-        self.log("train_acc", train_acc, on_step=True, prog_bar=True)
+        self.log("train_acc", train_acc.compute(), on_step=True, prog_bar=True)
         return train_loss
 
     def validation_step(self, batch, batch_idx):
