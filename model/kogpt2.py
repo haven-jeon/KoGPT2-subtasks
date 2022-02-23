@@ -111,7 +111,7 @@ class SubtaskGPT2(Classification):
         train_acc = self.metric_acc(torch.nn.functional.softmax(y_hat, dim=1),
                                     label)
         self.log("train_loss", train_loss, on_epoch=True, prog_bar=True)
-        self.log("train_acc", train_acc.compute(), on_step=True, prog_bar=True)
+        self.log("train_acc", train_acc, on_step=True, prog_bar=True)
         return train_loss
 
     def validation_step(self, batch, batch_idx):
@@ -130,10 +130,7 @@ class SubtaskGPT2(Classification):
     def validation_epoch_end(self, outputs):
         avg_loss = torch.stack([x["loss"] for x in outputs]).mean()
         self.log('val_loss', avg_loss)
-        self.log('val_acc',
-                 self.metric_acc_val.compute(),
-                 on_epoch=True,
-                 prog_bar=True)
+        self.log('val_acc', self.metric_acc_val, on_epoch=True, prog_bar=True)
 
 
 class SubtaskGPT2Regression(Classification):
